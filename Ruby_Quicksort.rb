@@ -1,28 +1,25 @@
 require 'pry'
 
 class Array
-  def quick_sort
-    sorted_array = Array.new
-    if self.size <= 1
-      self
-    else
-      pivot = self.sample
-      self.delete_at(self.index(pivot))
-      less = Array.new
-      greater = Array.new
-    end
-    self.each do |x|
-      if x <= pivot
-        less << x
+  def quicksort
+    return self if self.size <= 1
+
+    pivot_i = (self.size/2).to_i
+    pivot_v = self[pivot_i]
+    self.delete_at(pivot_i)
+    lower = Array.new
+    higher = Array.new
+
+    self.each do |n|
+      if n <= pivot_v
+        lower << n
       else
-        greater << x
+        higher << n
       end
     end
-    sorted_array << less.quick_sort
-    sorted_array << pivot
-    sorted_array << greater.quick_sort
-    sorted_array.flatten
+    return lower.quicksort + [pivot_v] + higher.quicksort
   end
 end
-array = [5, -5, 11, 0, 3]
-puts array.quick_sort
+
+array = [1,7,5,3,10,6,4,2,9,8]
+puts array.quicksort
